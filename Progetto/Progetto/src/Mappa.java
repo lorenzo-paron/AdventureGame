@@ -38,26 +38,20 @@ public class Mappa
 	
 	public String trasformaDaChar(char[][] mappaInChar)
 	{
-		String s = "";
-		for(int i = 0; i<14; i++) {
-			for(int c = 0; c<44; c++) {
-				s+=mappaMovimento[i][c];
-			}
-		}
-		return s;
+		//TODO:
+		/*
+		 * trasformare da char a string 
+		 */
+		return null;
 	}
 	
 	public char[][] trasformaDaString(String mappaInString)
 	{
-		int cnt = 0;
-		char[][] mappaMovimento = new char[14][44];
-		for(int i = 0; i<14; i++) {
-			for(int c = 0; c<44; c++) {
-				mappaMovimento[i][c] = mappaInString.charAt(cnt);
-				cnt++;
-			}
-		}
-		return mappaMovimento;
+		//TODO:
+		/*
+		 * trasformare da Strign a char 
+		 */
+		return null;
 	}
 
 }

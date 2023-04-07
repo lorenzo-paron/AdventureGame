@@ -9,8 +9,6 @@ public class Personaggio
 	private int attacco = 5;
 	private int difesa = 5;
 	private int esperienza = 0;
-	private int posizioneX = 13;
-	private int posizioneY = 13;
 	private HashMap<Integer, Oggetto> inventario;
 	private Mappa luogo;
 	
@@ -35,11 +33,7 @@ public class Personaggio
 	public Oggetto getOggettoInPos(int pos) {return inventario.get(pos);}
 	public void setPersonaggio(char pedina)	{this.pedina = pedina;}
 	public char getPersonaggioSx()	{return pedina;}
-	public int getPosizioneX() {return posizioneX;}
-	public void setPosizioneX(int posizioneX) {this.posizioneX = posizioneX;}
-	public int getPosizioneY() {return posizioneY;}
-	public void setPosizioneY(int posizioneY) {this.posizioneY = posizioneY;}
-
+	
 	public void aggiugiOggetto(Oggetto o, int quantita)
 	{
 		if(o!=null && quantita>0)	
