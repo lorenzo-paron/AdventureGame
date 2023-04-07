@@ -103,11 +103,12 @@ public class Menu implements ActionListener
 		bottoni[3].setBackground(Color.BLACK);
 		bottoni[3].setBounds(800, 400, 200, 40);
 		
-		/**********************************************************/
+		/**********************************************************/		
 		titolo.add(testo);
 		fine.add(testoFine);
 		areaBottoni.setBounds(800, 400, 200, 40);
 		
+		/**********************************************************/
 		frame.add(titolo, BorderLayout.PAGE_START);
 		frame.add(fine, BorderLayout.PAGE_END);
 		frame.add(areaBottoni, BorderLayout.CENTER);

@@ -1,8 +1,11 @@
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.*;
+import java.awt.event.KeyListener;
 import java.io.IOException;
 import javax.swing.*;
 
-public class Gioco
+public class Gioco extends JFrame implements KeyListener
 {
 	/**
 	 * TODO:
@@ -21,7 +24,10 @@ public class Gioco
 			+ "   S : giu\n"
 			+ "   D : destra\n"
 			+ "   E : interagisci\n"
-			+ "   C : colpisci";
+			+ "   F : colpisci";
+	
+	private Personaggio p = new Personaggio('@');
+	private char[][] mappaTemp = new char [14][44];
 	
 	JFrame gioco = new JFrame();
 	JPanel bordoSup = new JPanel();
@@ -34,9 +40,10 @@ public class Gioco
 	Mappa est2 = new Mappa("stanzaEst2.txt");
 	Mappa nord = new Mappa("stanzaNord1.txt");
 	Mappa ovest = new Mappa("stanzaOvest.txt");
-	
-	Gioco(int H, int L) throws IOException
+	 
+	Gioco(int H, int L) throws IOException 
 	{
+		gioco.addKeyListener(this);
 		/**********************************************************/
 		gioco.setSize(L,H);
 		gioco.setResizable(true);
@@ -90,9 +97,12 @@ public class Gioco
 		bordoSx.setEditable(false);
 		
 		central.setText(avvio.getMappa()); //cambia la mappa mostrata
+		mappaTemp = avvio.getMappaMovimento();
+		
 		
 		central.setBackground(Color.BLACK);
 		central.setForeground(Color.WHITE);
+		
 		central.setFont(new Font("Courier",Font.PLAIN, 40));
 		central.setOpaque(true);
 		central.setEditable(false);
@@ -112,4 +122,78 @@ public class Gioco
 		return s;
 	}
 	
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO:
+		/*
+		 * funzione per spostare il personaggio
+		 * una per movimento
+		 * controllare che non ci siano '_' o '-' oppure '|'
+		 * se c'è la cassa ('c') e la 'e' viene premuta bisogna aprirla
+		 * inventarsi un modo per cambiare stanza
+		 */
+		switch(e.getKeyChar()) {
+		
+		case 'a': muoviPedinaASinistra();
+			break;
+		case 'w': muoviPedinaSu();
+			break;
+		case 's': muoviPedinaGiu();
+			break;
+		case 'd': muoviPedinaADestra();
+			break;
+		case 'f': //colpisci
+		case 'e': //cassa
+			break;
+		}
+		
+	}
+	
+	public void muoviPedinaASinistra() {
+		
+		char[][] mappaMovimento = avvio.trasformaDaString(avvio.getMappa());
+		mappaMovimento[p.getPosizioneX()-1][p.getPosizioneY()] = mappaMovimento[p.getPosizioneX()][p.getPosizioneY()];
+		p.setPosizioneX(p.getPosizioneX()-1);
+		String s = avvio.trasformaDaChar(mappaMovimento);
+		central.setText(s); //cambia la mappa mostrata
+		mappaTemp = avvio.getMappaMovimento();
+	}
+	
+	public void muoviPedinaADestra() {
+		
+		char[][] mappaMovimento = avvio.trasformaDaString(avvio.getMappa());
+		mappaMovimento[p.getPosizioneX()+1][p.getPosizioneY()] = mappaMovimento[p.getPosizioneX()][p.getPosizioneY()];
+		p.setPosizioneX(p.getPosizioneX()+1);
+		String s = avvio.trasformaDaChar(mappaMovimento);
+		central.setText(s); //cambia la mappa mostrata
+		mappaTemp = avvio.getMappaMovimento();
+	}
+	
+	public void muoviPedinaSu() {
+		
+		char[][] mappaMovimento = avvio.trasformaDaString(avvio.getMappa());
+		mappaMovimento[p.getPosizioneX()][p.getPosizioneY()-1] = mappaMovimento[p.getPosizioneX()][p.getPosizioneY()];
+		p.setPosizioneY(p.getPosizioneY()-1);
+		String s = avvio.trasformaDaChar(mappaMovimento);
+		central.setText(s); //cambia la mappa mostrata
+		mappaTemp = avvio.getMappaMovimento();
+	}
+	
+	public void muoviPedinaGiu() {
+		
+		char[][] mappaMovimento = avvio.trasformaDaString(avvio.getMappa());
+		mappaMovimento[p.getPosizioneX()][p.getPosizioneY()+1] = mappaMovimento[p.getPosizioneX()][p.getPosizioneY()];
+		p.setPosizioneY(p.getPosizioneY()+1);
+		String s = avvio.trasformaDaChar(mappaMovimento);
+		central.setText(s); //cambia la mappa mostrata
+		mappaTemp = avvio.getMappaMovimento();
+	}
+	
+	@Override
+	public void keyPressed(KeyEvent e) {}
+	
+	public void keyReleased(KeyEvent e) {
+		System.out.println("You releasd key char: " + e.getKeyChar());
+		System.out.println("You releasd key code: " + e.getKeyCode());
+	}
 }
