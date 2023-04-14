@@ -1,11 +1,10 @@
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.awt.event.*;
 import java.awt.event.KeyListener;
 import java.io.IOException;
 import javax.swing.*;
 
-public class Gioco extends JFrame implements KeyListener
+public class Gioco implements KeyListener
 {
 	/**
 	 * TODO:
@@ -40,10 +39,9 @@ public class Gioco extends JFrame implements KeyListener
 	Mappa est2 = new Mappa("stanzaEst2.txt");
 	Mappa nord = new Mappa("stanzaNord1.txt");
 	Mappa ovest = new Mappa("stanzaOvest.txt");
-	 
-	Gioco(int H, int L) throws IOException 
+	
+	Gioco(int H, int L) throws IOException
 	{
-		gioco.addKeyListener(this);
 		/**********************************************************/
 		gioco.setSize(L,H);
 		gioco.setResizable(true);
@@ -68,6 +66,10 @@ public class Gioco extends JFrame implements KeyListener
 		vita.setString("Vita: "+ vita.getValue());
 		
 		gioco.add(vita, BorderLayout.NORTH);
+		
+		gioco.addKeyListener(new MyKeyListener());
+		gioco.setFocusable(true);
+	
 		
 		colpito(0);
 	}
@@ -102,7 +104,6 @@ public class Gioco extends JFrame implements KeyListener
 		
 		central.setBackground(Color.BLACK);
 		central.setForeground(Color.WHITE);
-		
 		central.setFont(new Font("Courier",Font.PLAIN, 40));
 		central.setOpaque(true);
 		central.setEditable(false);
@@ -134,20 +135,74 @@ public class Gioco extends JFrame implements KeyListener
 		 */
 		switch(e.getKeyChar()) {
 		
-		case 'a': muoviPedinaASinistra();
+		case 'a': central.setLocation(central.getX()-10, central.getY());
 			break;
-		case 'w': muoviPedinaSu();
+		case 'w': central.setLocation(central.getX(), central.getY()-10);
 			break;
-		case 's': muoviPedinaGiu();
+		case 's': central.setLocation(central.getX(), central.getY()+10);
 			break;
-		case 'd': muoviPedinaADestra();
-			break;
+		case 'd': central.setLocation(central.getX()+10, central.getY());
 		case 'f': //colpisci
 		case 'e': //cassa
 			break;
 		}
 		
 	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {}
+	public void keyReleased(KeyEvent e) {}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	class MyKeyListener implements KeyListener {
+
+		@Override
+		public void keyPressed(KeyEvent e) {}
+		
+		public void keyReleased(KeyEvent e) {
+			System.out.println("You releasd key char: " + e.getKeyChar());
+			System.out.println("You releasd key code: " + e.getKeyCode());
+		}
+
+		@Override
+		public void keyTyped(KeyEvent e) {
+			// TODO:
+			/*
+			 * funzione per spostare il personaggio
+			 * una per movimento
+			 * controllare che non ci siano '_' o '-' oppure '|'
+			 * se c'è la cassa ('c') e la 'e' viene premuta bisogna aprirla
+			 * inventarsi un modo per cambiare stanza
+			 */
+			switch(e.getKeyChar()) {
+			
+			case 'a': muoviPedinaASinistra();
+				break;
+			case 'w': muoviPedinaSu();
+				break;
+			case 's': muoviPedinaGiu();
+				break;
+			case 'd': muoviPedinaADestra();
+				break;
+			case 'f': //colpisci
+			case 'e': //cassa
+				break;
+			}
+			
+		}
+		
+		
+		
+		
+	}
+	
 	
 	public void muoviPedinaASinistra() {
 		
@@ -187,13 +242,5 @@ public class Gioco extends JFrame implements KeyListener
 		String s = avvio.trasformaDaChar(mappaMovimento);
 		central.setText(s); //cambia la mappa mostrata
 		mappaTemp = avvio.getMappaMovimento();
-	}
-	
-	@Override
-	public void keyPressed(KeyEvent e) {}
-	
-	public void keyReleased(KeyEvent e) {
-		System.out.println("You releasd key char: " + e.getKeyChar());
-		System.out.println("You releasd key code: " + e.getKeyCode());
 	}
 }
