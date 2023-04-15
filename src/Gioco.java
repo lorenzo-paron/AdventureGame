@@ -4,7 +4,7 @@ import java.awt.event.KeyListener;
 import java.io.IOException;
 import javax.swing.*;
 
-public class Gioco implements KeyListener
+public class Gioco
 {
 	/**
 	 * TODO:
@@ -26,7 +26,8 @@ public class Gioco implements KeyListener
 			+ "   F : colpisci";
 	
 	private Personaggio p = new Personaggio('@');
-	private char[][] mappaTemp = new char [14][44];
+	
+	char[][] mappaMovimento = new char[14][44];
 	
 	JFrame gioco = new JFrame();
 	JPanel bordoSup = new JPanel();
@@ -98,8 +99,8 @@ public class Gioco implements KeyListener
 		bordoSx.setOpaque(true);
 		bordoSx.setEditable(false);
 		
-		central.setText(avvio.getMappa()); //cambia la mappa mostrata
-		mappaTemp = avvio.getMappaMovimento();
+		mappaMovimento = avvio.spostaPediana(avvio.getMappaMovimento(), p);
+		central.setText(avvio.trasformaDaChar(mappaMovimento));
 		
 		
 		central.setBackground(Color.BLACK);
@@ -123,41 +124,8 @@ public class Gioco implements KeyListener
 		return s;
 	}
 	
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO:
-		/*
-		 * funzione per spostare il personaggio
-		 * una per movimento
-		 * controllare che non ci siano '_' o '-' oppure '|'
-		 * se c'Ã¨ la cassa ('c') e la 'e' viene premuta bisogna aprirla
-		 * inventarsi un modo per cambiare stanza
-		 */
-		switch(e.getKeyChar()) {
+	
 		
-		case 'a': central.setLocation(central.getX()-10, central.getY());
-			break;
-		case 'w': central.setLocation(central.getX(), central.getY()-10);
-			break;
-		case 's': central.setLocation(central.getX(), central.getY()+10);
-			break;
-		case 'd': central.setLocation(central.getX()+10, central.getY());
-		case 'f': //colpisci
-		case 'e': //cassa
-			break;
-		}
-		
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {}
-	public void keyReleased(KeyEvent e) {}
-	
-	
-	
-	
-	
-	
 	
 	
 	
@@ -178,7 +146,7 @@ public class Gioco implements KeyListener
 			 * funzione per spostare il personaggio
 			 * una per movimento
 			 * controllare che non ci siano '_' o '-' oppure '|'
-			 * se c'è la cassa ('c') e la 'e' viene premuta bisogna aprirla
+			 * se c'ï¿½ la cassa ('c') e la 'e' viene premuta bisogna aprirla
 			 * inventarsi un modo per cambiare stanza
 			 */
 			switch(e.getKeyChar()) {
@@ -206,41 +174,71 @@ public class Gioco implements KeyListener
 	
 	public void muoviPedinaASinistra() {
 		
-		char[][] mappaMovimento = avvio.trasformaDaString(avvio.getMappa());
-		mappaMovimento[p.getPosizioneX()-1][p.getPosizioneY()] = mappaMovimento[p.getPosizioneX()][p.getPosizioneY()];
-		p.setPosizioneX(p.getPosizioneX()-1);
+		char[][] mappaMovimento = avvio.trasformaDaString(avvio.getMappa(), p);
+		if(controlloSinistra() == true) {
+			p.setPosizioneX(p.getPosizioneX()-1);
+		}
+		mappaMovimento = avvio.spostaPediana(mappaMovimento, p);
+		this.mappaMovimento = mappaMovimento;
 		String s = avvio.trasformaDaChar(mappaMovimento);
+		System.out.println(s);
 		central.setText(s); //cambia la mappa mostrata
-		mappaTemp = avvio.getMappaMovimento();
 	}
 	
 	public void muoviPedinaADestra() {
 		
-		char[][] mappaMovimento = avvio.trasformaDaString(avvio.getMappa());
-		mappaMovimento[p.getPosizioneX()+1][p.getPosizioneY()] = mappaMovimento[p.getPosizioneX()][p.getPosizioneY()];
-		p.setPosizioneX(p.getPosizioneX()+1);
+		char[][] mappaMovimento = avvio.trasformaDaString(avvio.getMappa(), p);
+		if(controlloDestra() == true) {
+			p.setPosizioneX(p.getPosizioneX()+1);
+		}
+		mappaMovimento = avvio.spostaPediana(mappaMovimento, p);
+		this.mappaMovimento = mappaMovimento;
 		String s = avvio.trasformaDaChar(mappaMovimento);
 		central.setText(s); //cambia la mappa mostrata
-		mappaTemp = avvio.getMappaMovimento();
 	}
 	
 	public void muoviPedinaSu() {
 		
-		char[][] mappaMovimento = avvio.trasformaDaString(avvio.getMappa());
-		mappaMovimento[p.getPosizioneX()][p.getPosizioneY()-1] = mappaMovimento[p.getPosizioneX()][p.getPosizioneY()];
-		p.setPosizioneY(p.getPosizioneY()-1);
+		char[][] mappaMovimento = avvio.trasformaDaString(avvio.getMappa(), p);
+		if(controlloSu() == true) {
+			p.setPosizioneY(p.getPosizioneY()-1);
+		}
+		mappaMovimento = avvio.spostaPediana(mappaMovimento, p);
+		this.mappaMovimento = mappaMovimento;
 		String s = avvio.trasformaDaChar(mappaMovimento);
+		System.out.println(s);
 		central.setText(s); //cambia la mappa mostrata
-		mappaTemp = avvio.getMappaMovimento();
 	}
 	
 	public void muoviPedinaGiu() {
 		
-		char[][] mappaMovimento = avvio.trasformaDaString(avvio.getMappa());
-		mappaMovimento[p.getPosizioneX()][p.getPosizioneY()+1] = mappaMovimento[p.getPosizioneX()][p.getPosizioneY()];
-		p.setPosizioneY(p.getPosizioneY()+1);
+		char[][] mappaMovimento = avvio.trasformaDaString(avvio.getMappa(), p);
+		if(controlloGiu() == true) {
+			p.setPosizioneY(p.getPosizioneY()+1);
+		}
+		mappaMovimento = avvio.spostaPediana(mappaMovimento, p);
+		this.mappaMovimento = mappaMovimento;
 		String s = avvio.trasformaDaChar(mappaMovimento);
+		System.out.println(s);
 		central.setText(s); //cambia la mappa mostrata
-		mappaTemp = avvio.getMappaMovimento();
+	}
+	
+	public boolean controlloGiu() {
+		
+		return (p.getPosizioneY()+1<13 && mappaMovimento[p.getPosizioneY()+1][p.getPosizioneX()] != '_' && mappaMovimento[p.getPosizioneY()+1][p.getPosizioneX()] != '|' && (p.getPosizioneY()+1==10? (p.getPosizioneX()<27?true:false):true) && (p.getPosizioneY()+1==9? (p.getPosizioneX()<42?true:false):true) ?true:false);
+	}
+	
+	public boolean controlloDestra() {
+		
+		return (p.getPosizioneX()+1<43 && mappaMovimento[p.getPosizioneY()][p.getPosizioneX()+1] != '_' && mappaMovimento[p.getPosizioneY()][p.getPosizioneX()+1] != '|'?true:false);
+	}
+	
+	public boolean controlloSinistra() {
+		return (p.getPosizioneX()-1>0 && mappaMovimento[p.getPosizioneY()][p.getPosizioneX()-1] != '_'&& mappaMovimento[p.getPosizioneY()][p.getPosizioneX()-1] != '|'?true:false);
+		
+	}
+	public boolean controlloSu() {
+		
+		return (p.getPosizioneY()-1>0 && mappaMovimento[p.getPosizioneY()-1][p.getPosizioneX()] != '_' && mappaMovimento[p.getPosizioneY()-1][p.getPosizioneX()] != '|' && (p.getPosizioneY()-1==10? (p.getPosizioneX()<27?true:false):true) && (p.getPosizioneY()+1==9? (p.getPosizioneX()<42?true:false):true) ?true:false);
 	}
 }

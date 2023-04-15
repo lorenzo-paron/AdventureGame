@@ -12,7 +12,7 @@ public class Personaggio
 	private HashMap<Integer, Oggetto> inventario;
 	private Mappa luogo;
 	private int posizioneX = 13;
-	private int posizioneY = 13;
+	private int posizioneY = 12;
 	
 	Personaggio(char pedina)
 	{
