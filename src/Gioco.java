@@ -41,8 +41,11 @@ public class Gioco
 	Mappa nord = new Mappa("stanzaNord1.txt");
 	Mappa ovest = new Mappa("stanzaOvest.txt");
 	
+	Mappa tempo = new Mappa("stanzaAvvio.txt");
+	
 	Gioco(int H, int L) throws IOException
 	{
+		
 		/**********************************************************/
 		gioco.setSize(L,H);
 		gioco.setResizable(true);
@@ -51,6 +54,8 @@ public class Gioco
 		gioco.getContentPane().setBackground(Color.BLACK);
 		gioco.setVisible(true);
 		gioco.setLayout(new BorderLayout());
+		
+		tempo = avvio;
 		
 		/**********************************************************/
 		bordoSup.setLayout(new BorderLayout());
@@ -174,71 +179,103 @@ public class Gioco
 	
 	public void muoviPedinaASinistra() {
 		
-		char[][] mappaMovimento = avvio.trasformaDaString(avvio.getMappa(), p);
-		if(controlloSinistra() == true) {
+		char[][] mappaMovimento = tempo.trasformaDaString(avvio.getMappa(), p);
+		if(controlloCambioMappa() == true) {
+			cambioMappaAvvio();
+			return;
+		}
+		if(controlloSinistraAvvio() == true) {
 			p.setPosizioneX(p.getPosizioneX()-1);
 		}
-		mappaMovimento = avvio.spostaPediana(mappaMovimento, p);
+		mappaMovimento = tempo.spostaPediana(mappaMovimento, p);
 		this.mappaMovimento = mappaMovimento;
-		String s = avvio.trasformaDaChar(mappaMovimento);
+		String s = tempo.trasformaDaChar(mappaMovimento);
 		System.out.println(s);
 		central.setText(s); //cambia la mappa mostrata
 	}
 	
 	public void muoviPedinaADestra() {
 		
-		char[][] mappaMovimento = avvio.trasformaDaString(avvio.getMappa(), p);
-		if(controlloDestra() == true) {
+		char[][] mappaMovimento = tempo.trasformaDaString(tempo.getMappa(), p);
+		if(controlloCambioMappa() == true) {
+			cambioMappaAvvio();
+			return;
+		}
+		if(controlloDestraAvvio() == true) {
 			p.setPosizioneX(p.getPosizioneX()+1);
 		}
-		mappaMovimento = avvio.spostaPediana(mappaMovimento, p);
+		mappaMovimento = tempo.spostaPediana(mappaMovimento, p);
 		this.mappaMovimento = mappaMovimento;
-		String s = avvio.trasformaDaChar(mappaMovimento);
+		String s = tempo.trasformaDaChar(mappaMovimento);
 		central.setText(s); //cambia la mappa mostrata
 	}
 	
 	public void muoviPedinaSu() {
 		
-		char[][] mappaMovimento = avvio.trasformaDaString(avvio.getMappa(), p);
-		if(controlloSu() == true) {
+		char[][] mappaMovimento = tempo.trasformaDaString(tempo.getMappa(), p);
+		if(controlloCambioMappa() == true) {
+			cambioMappaAvvio();
+			return;
+		}
+		if(controlloSuAvvio() == true) {
 			p.setPosizioneY(p.getPosizioneY()-1);
 		}
-		mappaMovimento = avvio.spostaPediana(mappaMovimento, p);
+		mappaMovimento = tempo.spostaPediana(mappaMovimento, p);
 		this.mappaMovimento = mappaMovimento;
-		String s = avvio.trasformaDaChar(mappaMovimento);
+		String s = tempo.trasformaDaChar(mappaMovimento);
 		System.out.println(s);
 		central.setText(s); //cambia la mappa mostrata
 	}
 	
 	public void muoviPedinaGiu() {
 		
-		char[][] mappaMovimento = avvio.trasformaDaString(avvio.getMappa(), p);
-		if(controlloGiu() == true) {
+		char[][] mappaMovimento = tempo.trasformaDaString(tempo.getMappa(), p);
+		if(controlloCambioMappa() == true) {
+			cambioMappaAvvio();
+			return;
+		}
+		if(controlloGiuAvvio() == true) {
 			p.setPosizioneY(p.getPosizioneY()+1);
 		}
-		mappaMovimento = avvio.spostaPediana(mappaMovimento, p);
+		mappaMovimento = tempo.spostaPediana(mappaMovimento, p);
 		this.mappaMovimento = mappaMovimento;
-		String s = avvio.trasformaDaChar(mappaMovimento);
+		String s = tempo.trasformaDaChar(mappaMovimento);
 		System.out.println(s);
 		central.setText(s); //cambia la mappa mostrata
 	}
 	
-	public boolean controlloGiu() {
+	public boolean controlloGiuAvvio() {
 		
-		return (p.getPosizioneY()+1<13 && mappaMovimento[p.getPosizioneY()+1][p.getPosizioneX()] != '_' && mappaMovimento[p.getPosizioneY()+1][p.getPosizioneX()] != '|' && (p.getPosizioneY()+1==10? (p.getPosizioneX()<27?true:false):true) && (p.getPosizioneY()+1==9? (p.getPosizioneX()<42?true:false):true) ?true:false);
+		return (mappaMovimento[p.getPosizioneY()+1][p.getPosizioneX()] != '_' && mappaMovimento[p.getPosizioneY()+1][p.getPosizioneX()] != '|' && (p.getPosizioneY()+1==10? (p.getPosizioneX()<27?true:false):true) && (p.getPosizioneY()+1==9? (p.getPosizioneX()<42?true:false):true) ?true:false);
 	}
 	
-	public boolean controlloDestra() {
+	public boolean controlloDestraAvvio() {
 		
-		return (p.getPosizioneX()+1<43 && mappaMovimento[p.getPosizioneY()][p.getPosizioneX()+1] != '_' && mappaMovimento[p.getPosizioneY()][p.getPosizioneX()+1] != '|'?true:false);
+		return (mappaMovimento[p.getPosizioneY()][p.getPosizioneX()+1] != '_' && mappaMovimento[p.getPosizioneY()][p.getPosizioneX()+1] != '|'?true:false);
 	}
 	
-	public boolean controlloSinistra() {
-		return (p.getPosizioneX()-1>0 && mappaMovimento[p.getPosizioneY()][p.getPosizioneX()-1] != '_'&& mappaMovimento[p.getPosizioneY()][p.getPosizioneX()-1] != '|'?true:false);
+	public boolean controlloSinistraAvvio() {
+		return (mappaMovimento[p.getPosizioneY()][p.getPosizioneX()-1] != '_'&& mappaMovimento[p.getPosizioneY()][p.getPosizioneX()-1] != '|'?true:false);
 		
 	}
-	public boolean controlloSu() {
+	public boolean controlloSuAvvio() {
 		
-		return (p.getPosizioneY()-1>0 && mappaMovimento[p.getPosizioneY()-1][p.getPosizioneX()] != '_' && mappaMovimento[p.getPosizioneY()-1][p.getPosizioneX()] != '|' && (p.getPosizioneY()-1==10? (p.getPosizioneX()<27?true:false):true) && (p.getPosizioneY()+1==9? (p.getPosizioneX()<42?true:false):true) ?true:false);
+		return (mappaMovimento[p.getPosizioneY()-1][p.getPosizioneX()] != '_' && mappaMovimento[p.getPosizioneY()-1][p.getPosizioneX()] != '|' && (p.getPosizioneY()-1==10? (p.getPosizioneX()<27?true:false):true) && (p.getPosizioneY()+1==9? (p.getPosizioneX()<42?true:false):true) ?true:false);
 	}
+	
+	public boolean controlloCambioMappa() {
+		return (p.getPosizioneX()-1 == -1 || p.getPosizioneY()-1 == -1);
+	}
+	
+	public void cambioMappaAvvio() {
+		if(p.getPosizioneX()-1 == -1 && (p.getPosizioneY() == 5 || p.getPosizioneY() == 4)) {
+			p.setPosizioneX(43);
+			p.setPosizioneY(3);
+			mappaMovimento = est1.spostaPediana(est1.getMappaMovimento(), p);
+			avvio = tempo;
+			tempo = est1;
+			central.setText(est1.trasformaDaChar(mappaMovimento));
+		}
+	}
+	
 }
