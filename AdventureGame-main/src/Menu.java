@@ -146,11 +146,7 @@ public class Menu implements ActionListener
 
 	private void autori()
 	{
-		// TODO:
-		/**
-		 * scrivi gli autori e cosa hanno fatto nel gioco
-		 */
-		
+		new Autori();
 	}
 
 	private void impostazioni()
